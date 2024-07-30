@@ -31,26 +31,13 @@ late SharedPreferences prefs;
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  SharedPreferences.getInstance().then(
-    (value) {
-      return prefs = value;
-    },
-  ).then(
-    (_) {
-      RM.storageInitializer(SharedStorage(_)).then(
-        (value) {
-          runApp(
-            App(),
-          );
-        },
+  RM.storageInitializer(SharedStorage()).then(
+        (_) => runApp(App()),
       );
-    },
-  );
 }
 
 class SharedStorage implements IPersistStore {
-  final SharedPreferences prefs;
-  SharedStorage(this.prefs);
+  late SharedPreferences prefs;
   @override
   Future<void> delete(String key) => prefs.remove(key);
 
@@ -58,7 +45,9 @@ class SharedStorage implements IPersistStore {
   Future<void> deleteAll() => prefs.clear();
 
   @override
-  Future<void> init() async {}
+  Future<void> init() async {
+    prefs = await SharedPreferences.getInstance();
+  }
 
   @override
   Object? read(String key) => prefs.get(key);
