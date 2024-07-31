@@ -3,10 +3,12 @@ import 'package:memories/main.dart';
 String get randomID => Uuid().v4();
 
 extension DynamicExtensions on dynamic {
-  Widget text([double textScaleFactor = 1]) => Text(
-        toString(),
-        textScaler: TextScaler.linear(textScaleFactor),
-      );
+  Widget text([double textScaleFactor = 1]) {
+    return Text(
+      toString(),
+      textScaler: TextScaler.linear(textScaleFactor),
+    );
+  }
 }
 
 extension WidgetExtensions on Widget {
